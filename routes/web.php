@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Routes to display expenses
 Route::get('/', function () {
     $expenses = [];
     $totalAmount = [];
