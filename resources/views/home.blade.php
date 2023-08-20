@@ -16,7 +16,7 @@
     @auth
         <div class="flex flex-col">
             <!-- navbar -->
-            <nav class="bg-gray-800 p-4">
+            <nav class="bg-gray-800 p-4 flex justify-between items-center">
                 <div class="top-0 left-0 ml-4">
                     <p class="text-white text-lg mb-3">Welcome, {{ Auth::user()->name }} </p>
                     <form action="/logout" method="POST">
@@ -27,6 +27,7 @@
                         </button>
                     </form>
                 </div>
+                <div class="text-white text-2xl font-semibold">Expense Tracker</div>
             </nav>
 
             <!-- Content -->

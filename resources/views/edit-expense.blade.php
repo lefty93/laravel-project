@@ -10,10 +10,10 @@
     <title>Document</title>
 </head>
 
-<body class="h-full bg-gradient-to-r from-purple-500 to-pink-500">
+<body class="h-full bg-gradient-to-r from-blue-500 to-slate-400">
     @auth
         <!-- navbar -->
-        <nav class="bg-gray-800 p-4">
+        <nav class="bg-gray-800 p-4 flex justify-between items-center">
             <div class="top-0 left-0 ml-4">
                 <p class="text-white text-lg mb-3">Welcome, {{ Auth::user()->name }} </p>
                 <form action="/logout" method="POST">
@@ -24,6 +24,7 @@
                     </button>
                 </form>
             </div>
+            <div class="text-white text-2xl font-semibold">Expense Tracker</div>
         </nav>
         <div class="flex justify-center">
             <!-- Edit Screen -->
