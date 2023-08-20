@@ -22,7 +22,7 @@ Route::get('/', function () {
     $expenses = [];
     $totalAmount = [];
     if (auth()->check()) {
-        $expenses = auth()->user()->usersExpenseRecords()->orderBy('expense_date', 'desc')->paginate(10);
+        $expenses = auth()->user()->usersExpenseRecords()->orderBy('expense_date', 'desc')->paginate(5);
         $totalAmount = auth()->user()->usersExpenseRecords()->sum('amount');
     }
 
@@ -42,3 +42,6 @@ Route::post('/create-expense', [ExpenseController::class, 'createExpense']);
 Route::get('/edit-expense/{expense}', [ExpenseController::class, 'showEditScreen']);
 Route::put('/edit-expense/{expense}', [ExpenseController::class, 'updateExpense']);
 Route::delete('/delete-expense/{expense}', [ExpenseController::class, 'deleteExpense']);
+Route::get('/expense-chart', [ExpenseController::class, 'showExpenseChart']);
+
+

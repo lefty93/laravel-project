@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Expense;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ExpenseController extends Controller
 {
@@ -50,10 +51,29 @@ class ExpenseController extends Controller
         return redirect('/');
     }
 
-    public function deleteExpense(Expense $expense) {
+    public function deleteExpense(Expense $expense)
+    {
         if (auth()->user()->id === $expense['user_id']) {
             $expense->delete();
         }
         return redirect('/');
+    }
+
+    //showExpense chart
+    public function showExpenseChart()
+    {
+        // Fetch data from the expenses table (e.g., group by category)
+        $expensesData = Expense::select('category', DB::raw('SUM(amount) as total_amount'))
+            ->groupBy('category')
+            ->get();
+
+        // Prepare data for the chart
+        $labels = $expensesData->pluck('category');
+        $data = $expensesData->pluck('total_amount');
+
+        return response()->json([
+            'labels' => $labels,
+            'data' => $data,
+        ]);
     }
 }

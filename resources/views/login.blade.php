@@ -10,7 +10,7 @@
     <link rel="icon" type="image/x-icon" href="{{ URL::to('/assets/img/5_skull_momney.jpg') }}">
 </head>
 
-<body class="h-full bg-gradient-to-r from-purple-500 to-pink-500">
+<body class="h-full bg-gradient-to-r from-blue-500 to-slate-400">
     <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
             <img class="mx-auto h-[120px] w-[120px] rounded-full" src="{{ URL::to('/assets/img/5_skull_momney.jpg') }}"

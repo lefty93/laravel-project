@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://kit.fontawesome.com/527e1aeb21.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.3/dist/chart.umd.min.js"></script>
     @vite('resources/css/app.css')
     <title>Expense Tracker</title>
     <link rel="icon" type="image/x-icon" href="{{ URL::to('/assets/img/5_skull_momney.jpg') }}">
 </head>
 
-<body class="h-full bg-gradient-to-r from-purple-500 to-pink-500">
+<body class="h-full bg-gradient-to-r from-blue-500 to-slate-400">
     @auth
         <div class="flex flex-col">
             <!-- navbar -->
@@ -29,7 +30,7 @@
             </nav>
 
             <!-- Content -->
-            <div class="sm:flex gap-6">
+            <div class="sm:flex justify-evenly">
                 <!-- Form to input expense record -->
                 <div class="sm:ml-4 sm:mt-5 sm:w-[350px] p-3 bg-white shadow-md sm:rounded-md h-[447px]">
                     <h1 class="text-2xl font-semibold mb-4">Add your expense</h1>
@@ -86,15 +87,6 @@
                                         </a>
                                     </li>
 
-                                    {{-- @foreach ($expenses->getUrlRange(1, $expenses->lastPage()) as $page => $url)
-                                    <li>
-                                        <a href="{{ $url }}"
-                                            class="pagination-link {{ $page == $expenses->currentPage() ? 'active' : '' }}">
-                                            {{ $page }}
-                                        </a>
-                                    </li>
-                                @endforeach --}}
-
                                     <li>
                                         <a href="{{ $expenses->nextPageUrl() }}" class="pagination-link"
                                             {{ $expenses->hasMorePages() ? '' : 'disabled' }}>
@@ -129,7 +121,7 @@
                                                 {{ $expense['description'] }}
                                             </td>
                                             <td
-                                                class="py-2 px-1 md:px-2 border-b border-gray-200 group grid grid-cols-2 gap-1">
+                                                class="py-2 px-1 md:px-2 border-b border-gray-200 group grid grid-cols-2 gap-1 text-red-500">
                                                 ${{ $expense['amount'] }}
                                                 <!-- Edit & Delete -->
                                                 <div class="flex gap-2">
@@ -156,8 +148,10 @@
 
                     </div>
                     <!--Container to show expense chart -->
-                    <div>
-                        <h1>Total Expenses: ${{ $totalAmount }} </h1>
+                    <div class="flex flex-col sm:mt-5">
+                        <h1 class="text-2xl font-semibold mb-4">Total Expenses: <span
+                                class="text-red-600">${{ $totalAmount }}</span></h1>
+                        <div class="w-[280px] h-[320px] bg-white sm:rounded-md"><canvas id="expenseChart"></canvas></div>
                     </div>
                 @endif
             </div>
@@ -167,7 +161,8 @@
             <div class="sm:mx-auto sm:w-full sm:max-w-sm">
                 <img class="mx-auto h-[120px] w-[120px] rounded-full" src="{{ URL::to('/assets/img/5_skull_momney.jpg') }}"
                     alt="Logo">
-                <h2 class="mt-1 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign up to track your
+                <h2 class="mt-1 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign up to track
+                    your
                     expenses!</h2>
             </div>
 
@@ -216,6 +211,35 @@
         </div>
 
     @endauth
+    <script>
+        // Fetch the data from the controller
+        fetch('/expense-chart')
+            .then(response => response.json())
+            .then(data => {
+                // Create a Chart.js chart
+                var ctx = document.getElementById('expenseChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            data: data.data,
+                            backgroundColor: [
+                                '#0074D9', // Bright Blue
+                                '#FF4136', // Red
+                                '#2ECC40', // Green
+                                '#FF851B', // Orange
+                                '#B10DC9', // Purple
+                                '#FFDC00', // Yellow
+                                '#001f3f', // Navy Blue
+                                // Add more colors as needed
+                            ],
+                        }],
+                    },
+
+                });
+            });
+    </script>
 </body>
 
 </html>
