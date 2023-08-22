@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Expense;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ExpenseController extends Controller
 {
@@ -62,8 +63,13 @@ class ExpenseController extends Controller
     //showExpense chart
     public function showExpenseChart()
     {
+        // Get the ID of the currently authenticated user
+        $userId = Auth::id();
+
+
         // Fetch data from the expenses table (e.g., group by category)
         $expensesData = Expense::select('category', DB::raw('SUM(amount) as total_amount'))
+            ->where('user_id', $userId) // Filter by the user's ID
             ->groupBy('category')
             ->get();
 
